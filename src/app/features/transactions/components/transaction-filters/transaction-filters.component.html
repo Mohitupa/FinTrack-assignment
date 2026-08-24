@@ -1,0 +1,18 @@
+<div class="toolbar" [formGroup]="form">
+  <label class="search-shell">
+    <img class="search-icon" src="assets/icons/search.svg" alt="" aria-hidden="true">
+    <span class="visually-hidden">Search transactions by ID or customer name</span>
+    <input class="search-input" type="search" formControlName="search"
+           placeholder="Search transactions (ID, Customer)...">
+  </label>
+
+  <div class="filter-group">
+    <img src="assets/icons/filter.svg" width="15" height="15" alt="" aria-hidden="true">
+    <label class="visually-hidden" for="txn-status">Filter by status</label>
+    <select id="txn-status" class="filter-select" formControlName="status">
+      @for (option of statusOptions; track option.value) {
+        <option [value]="option.value">{{ option.label }}</option>
+      }
+    </select>
+  </div>
+</div>

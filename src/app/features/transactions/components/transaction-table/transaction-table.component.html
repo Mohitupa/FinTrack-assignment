@@ -1,0 +1,25 @@
+<div class="table-scroll">
+  <table class="transaction-table">
+    <thead>
+      <tr>
+        <th scope="col">Transaction ID</th>
+        <th scope="col">Date &amp; time</th>
+        <th scope="col">Customer</th>
+        <th scope="col">Method</th>
+        <th scope="col">Amount (INR)</th>
+        <th scope="col">Status</th>
+        <th scope="col" class="actions-heading">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (transaction of transactions; track transaction.id) {
+        <tr app-transaction-row
+            [transaction]="transaction"
+            [rowState]="rowStateFor(transaction.id)"
+            (checkStatus)="checkStatus.emit($event)"
+            (viewDetails)="viewDetails.emit($event)">
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

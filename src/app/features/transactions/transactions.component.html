@@ -1,0 +1,40 @@
+<section class="workspace">
+  <h1 class="heading">Payment Transactions</h1>
+  <p class="supporting-copy">
+    Monitor and manage all inbound and outbound payment flows across your organization in real-time.
+  </p>
+
+  <app-transaction-summary [summary]="summary()"></app-transaction-summary>
+
+  <section class="table-card">
+    <app-transaction-filters [initialSearch]="initialSearchFromUrl" [initialStatus]="initialStatusFromUrl"
+      (searchChange)="onSearchChange($event)" (statusChange)="onStatusChange($event)">
+    </app-transaction-filters>
+
+    @if (listState().loading) {
+    <div class="state-panel">
+      <app-loading-spinner label="Loading transactions…" size="lg"></app-loading-spinner>
+    </div>
+    } @else if (listState().error) {
+    <div class="state-panel state-panel--error" role="alert">
+      <p>{{ listState().error }}</p>
+      <button type="button" class="retry-button" (click)="onRetryLoad()">Retry</button>
+    </div>
+    } @else if (filteredTransactions().length === 0) {
+    <app-empty-state [title]="hasActiveFilters() ? 'No matching transactions' : 'No transactions available'">
+    </app-empty-state>
+    } @else {
+    <app-transaction-table [transactions]="pagedTransactions()" [rowState]="rowState()"
+      (checkStatus)="onCheckStatus($event)" (viewDetails)="onViewDetails($event)">
+    </app-transaction-table>
+
+    <app-pagination [currentPage]="effectivePage()" [totalPages]="totalPages()" [totalItems]="totalItems()"
+      [pageSize]="pageSize" (pageChange)="onPageChange($event)">
+    </app-pagination>
+    }
+  </section>
+  @if (selectedTransaction(); as transaction) {
+  <app-transaction-details-modal [transaction]="transaction" (closed)="onModalClosed()">
+  </app-transaction-details-modal>
+  }
+</section>

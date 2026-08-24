@@ -1,0 +1,27 @@
+<td class="id-cell" data-label="Transaction ID">{{ transaction.id }}</td>
+<td class="muted-cell" data-label="Date &amp; time">{{ transaction.createdAt | date:'MMM d, HH:mm' }}</td>
+<td class="customer-cell" data-label="Customer">{{ transaction.customerName }}</td>
+<td class="muted-cell" data-label="Method">{{ methodLabel }}</td>
+<td class="amount-cell" data-label="Amount (INR)">{{ transaction.amount | currency:'INR':'symbol':'1.2-2' }}</td>
+<td data-label="Status">
+  <app-status-badge [status]="transaction.status"></app-status-badge>
+</td>
+<td class="action-cell" data-label="Actions">
+  <div class="actions">
+    @if (transaction.status === 'PENDING') {
+    @if (rowState.checking) {
+    <app-loading-spinner label="Checking status…" size="sm"></app-loading-spinner>
+    } @else {
+    <button type="button" class="action-button check" (click)="onCheckStatus()">
+      Check status
+    </button>
+    }
+    }
+    <button type="button" class="action-button" (click)="onViewDetails($event)">
+      View details
+    </button>
+  </div>
+  @if (rowState.error) {
+  <p class="row-error" role="alert">{{ rowState.error }}</p>
+  }
+</td>

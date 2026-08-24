@@ -1,0 +1,75 @@
+<app-modal [titleId]="titleId" (closed)="onClose()">
+  <h2 [id]="titleId" class="modal-title">Transaction Details</h2>
+
+  @switch (state().status) {
+    @case ('loading') {
+      <div class="modal-state">
+        <app-loading-spinner label="Loading transaction details…" size="lg"></app-loading-spinner>
+      </div>
+    }
+    @case ('error') {
+      <div class="modal-state modal-state--error" role="alert">
+        <p>{{ errorMessage() }}</p>
+        <button type="button" class="retry-button" (click)="fetchDetails()">Retry</button>
+      </div>
+    }
+    @case ('loaded') {
+      @if (loadedData(); as data) {
+        <div class="details-content">
+          <div class="details-row"><span class="details-label">Transaction ID</span><span class="details-value">{{ data.id }}</span></div>
+          <div class="details-row"><span class="details-label">Reference ID</span><span class="details-value">{{ data.referenceId }}</span></div>
+          <div class="details-row"><span class="details-label">Customer</span><span class="details-value">{{ data.customerName }}</span></div>
+          <div class="details-row"><span class="details-label">Amount</span><span class="details-value">{{ data.amount | currency:'INR ':'code':'1.2-2' }}</span></div>
+          <div class="details-row"><span class="details-label">Payment method</span><span class="details-value">{{ getMethodLabel(data.paymentMethod) }}</span></div>
+          <div class="details-row">
+            <span class="details-label">Status</span>
+            <app-status-badge [status]="data.status"></app-status-badge>
+          </div>
+          <div class="details-row"><span class="details-label">Created</span><span class="details-value">{{ data.createdAt | date:'medium' }}</span></div>
+          <div class="details-row"><span class="details-label">Last updated</span><span class="details-value">{{ data.updatedAt | date:'medium' }}</span></div>
+
+          @switch (data.status) {
+            @case ('SUCCESS') {
+              <div class="details-row details-row--highlight">
+                <span class="details-label">Bank reference</span>
+                <span class="details-value">{{ data.bankReference }}</span>
+              </div>
+            }
+            @case ('FAILED') {
+              <div class="details-row details-row--highlight details-row--warning">
+                <span class="details-label">Failure reason</span>
+                <span class="details-value">{{ data.failureReason }}</span>
+              </div>
+            }
+            @case ('REFUNDED') {
+              <div class="details-row details-row--highlight">
+                <span class="details-label">Refund reference</span>
+                <span class="details-value">{{ data.refundReference }}</span>
+              </div>
+              <div class="details-row">
+                <span class="details-label">Refunded on</span>
+                <span class="details-value">{{ data.refundedAt | date:'medium' }}</span>
+              </div>
+            }
+            @case ('PENDING') {
+              @if (data.lastStatusCheckAt) {
+                <div class="details-row details-row--highlight">
+                  <span class="details-label">Last status check</span>
+                  <span class="details-value">{{ data.lastStatusCheckAt | date:'medium' }}</span>
+                </div>
+              }
+            }
+            @case ('PROCESSING') {
+              @if (data.lastStatusCheckAt) {
+                <div class="details-row details-row--highlight">
+                  <span class="details-label">Last status check</span>
+                  <span class="details-value">{{ data.lastStatusCheckAt | date:'medium' }}</span>
+                </div>
+              }
+            }
+          }
+        </div>
+      }
+    }
+  }
+</app-modal>

@@ -1,0 +1,39 @@
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 3rem 1.5rem;
+  color: #6B7280;
+  border: 1px solid #e7ecf1;
+  border-radius: 10px;
+  background: #fff;
+
+  &__icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 1rem;
+    color: #9CA3AF;
+  }
+
+  &__title {
+    margin: 0 0 0.25rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #111827;
+  }
+
+  &__message {
+    margin: 0;
+    font-size: 0.875rem;
+    max-width: 28rem;
+  }
+
+  &__action {
+    margin-top: 1rem;
+  }
+
+  &__action:empty {
+    display: none;
+  }
+}

@@ -1,0 +1,14 @@
+<nav class="pagination" aria-label="Transaction list pagination">
+  <span class="pagination__summary">
+    Showing {{ rangeStart }} to {{ rangeEnd }} of {{ totalItems }} entries
+  </span>
+  <div class="page-buttons">
+    <button type="button" class="page-button" [disabled]="currentPage <= 1" (click)="goPrevious()">
+      Previous
+    </button>
+    <span aria-live="polite">Page {{ currentPage }} of {{ totalPages }}</span>
+    <button type="button" class="page-button" [disabled]="currentPage >= totalPages" (click)="goNext()">
+      Next
+    </button>
+  </div>
+</nav>
