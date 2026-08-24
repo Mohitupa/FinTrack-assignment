@@ -17,6 +17,15 @@ Package Manager   : npm 10.9.8
 
 ## Run the application
 
+Clone the repository:
+
+```bash
+git clone https://github.com/Mohitupa/FinTrack-assignment.git
+cd FinTrack-assignment
+```
+
+## Run the application
+
 ```bash
 npm install
 ng serve
